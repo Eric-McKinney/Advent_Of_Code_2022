@@ -4,21 +4,21 @@ with open("input.txt") as f:
 
 items = [i for i in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"]
 priorities = [p for p in range(1,53)]
-itemPriorities = dict(zip(items, priorities))
+item_priorities = dict(zip(items, priorities))
 
-sharedItems = []
+shared_items = []
 for line in data:
-    compartmentLength = (len(line) - 1) // 2
-    compartment1 = line[:compartmentLength]
-    compartment2 = line[compartmentLength:]
+    compartment_length = (len(line) - 1) // 2
+    compartment_1 = line[:compartment_length]
+    compartment_2 = line[compartment_length:]
 
-    for item in compartment1:
-        if item in compartment2:
-            sharedItems.append(item)
+    for item in compartment_1:
+        if item in compartment_2:
+            shared_items.append(item)
             break
 
 sum_of_priorities = 0
-for item in sharedItems:
-    sum_of_priorities += itemPriorities[item]
+for item in shared_items:
+    sum_of_priorities += item_priorities[item]
 
 print(sum_of_priorities)
