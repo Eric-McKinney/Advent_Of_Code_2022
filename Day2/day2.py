@@ -1,6 +1,6 @@
 
 with open("input.txt", "r") as f:
-    input = f.readlines()
+    data = f.readlines()
 
 
 def determine_move(opponent_move : str, outcome : str) -> str:
@@ -42,7 +42,7 @@ def main():
     }
 
     score = 0
-    for line in input:
+    for line in data:
         opponent_move = line[0]
         outcome = line[2]
 
