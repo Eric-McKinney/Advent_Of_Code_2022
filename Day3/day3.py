@@ -9,7 +9,7 @@ itemPriorities = dict(zip(items, priorities))
 sharedItems = []
 for line in data:
     compartmentLength = (len(line) - 1) // 2
-    compartment1 = line[0:compartmentLength]
+    compartment1 = line[:compartmentLength]
     compartment2 = line[compartmentLength:]
 
     for item in compartment1:
