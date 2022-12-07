@@ -32,9 +32,15 @@ for line in unparsed_crates_drawing:
             stacks[stack_num].append(character)
 
 
-def move_crate(start, destination):
-    crate = stacks[start - 1].pop()
-    stacks[destination - 1].append(crate)
+def move_crates(amount, start, destination):
+    crate_buffer = []
+    for crate_num in range(amount):
+        crate = stacks[start - 1].pop()
+        crate_buffer.append(crate)
+
+    crate_buffer.reverse()
+    for item in crate_buffer:
+        stacks[destination - 1].append(item)
 
 
 for line in moves:
@@ -55,8 +61,7 @@ for line in moves:
     if line[parsing_index + 1].isdigit():
         ending_stack = int(line[parsing_index: parsing_index + 2])
 
-    for i in range(amount_of_crates):
-        move_crate(starting_stack, ending_stack)
+    move_crates(amount_of_crates, starting_stack, ending_stack)
 
 top_crates = ""
 for stack in stacks:
