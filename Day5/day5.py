@@ -40,7 +40,7 @@ def move_crate(start, destination):
 for line in moves:
     parsing_index = 5
     amount_of_crates = int(line[parsing_index])
-    if line[6].isdigit():
+    if line[parsing_index + 1].isdigit():
         amount_of_crates = int(line[parsing_index: parsing_index + 2])
         parsing_index += 1
 
