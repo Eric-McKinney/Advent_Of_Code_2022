@@ -19,9 +19,9 @@ for idx, character in enumerate(stack_numbers):
             num_of_stacks = int(character)
 
 
-initial_stacks = []
+stacks = []
 for i in range(num_of_stacks):
-    initial_stacks.append([])
+    stacks.append([])
 
 
 unparsed_crates_drawing.reverse() # starts adding to stacks from bottom up
@@ -29,6 +29,37 @@ for line in unparsed_crates_drawing:
     for idx, character in enumerate(line):
         if character.isalpha():
             stack_num = stack_number_indexes[idx]
-            initial_stacks[stack_num].append(character)
+            stacks[stack_num].append(character)
 
 
+def move_crate(start, destination):
+    crate = stacks[start - 1].pop()
+    stacks[destination - 1].append(crate)
+
+
+for line in moves:
+    parsing_index = 5
+    amount_of_crates = int(line[parsing_index])
+    if line[6].isdigit():
+        amount_of_crates = int(line[parsing_index: parsing_index + 2])
+        parsing_index += 1
+
+    parsing_index += 7
+    starting_stack = int(line[parsing_index])
+    if line[parsing_index + 1].isdigit():
+        starting_stack = int(line[parsing_index: parsing_index + 2])
+        parsing_index += 1
+
+    parsing_index += 5
+    ending_stack = int(line[parsing_index])
+    if line[parsing_index + 1].isdigit():
+        ending_stack = int(line[parsing_index: parsing_index + 2])
+
+    for i in range(amount_of_crates):
+        move_crate(starting_stack, ending_stack)
+
+top_crates = ""
+for stack in stacks:
+    top_crates += stack[-1]
+
+print(top_crates)
