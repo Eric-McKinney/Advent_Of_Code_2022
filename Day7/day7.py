@@ -1,15 +1,19 @@
-with open("input.txt", "r") as f:
-    data = f.readline()
+def main():
+    with open("input.txt", "r") as f:
+        data = f.readlines()
 
-LENGTH_OF_WINDOW = 14
+    file_system = {}
+    for line in data:
+        if line[1] == "$":
+            line.split()
+            command = line[1]
 
-for i in range(LENGTH_OF_WINDOW, len(data)):
-    window = data[i-LENGTH_OF_WINDOW: i]
+            match command:
+                case "cd":
+                    directory = line[2]
+                case "ls":
+                    pass
 
-    duplicate_checker = set()
-    for character in window:
-        duplicate_checker.add(character)
 
-    if len(duplicate_checker) == LENGTH_OF_WINDOW:
-        print(i)
-        break
+if __name__ == "__main__":
+    main()
