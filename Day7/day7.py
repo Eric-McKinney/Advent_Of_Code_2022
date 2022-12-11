@@ -48,7 +48,7 @@ class FileSystem:
         self.curr_directory[file_name] = file_size
 
 
-def main():
+def parse_input() -> FileSystem:
     with open("input.txt", "r") as f:
         data = f.readlines()
 
@@ -75,6 +75,19 @@ def main():
                 file_size = int(line[0])
                 file_name = line[1]
                 file_system.add_file(file_name, file_size)
+
+    return file_system
+
+
+def find_directories_smaller_than(file_system: FileSystem, max_size: int) -> list:
+    pass
+
+
+def main():
+    MAX_SIZE = 100000
+
+    parsed_input = parse_input()
+    find_directories_smaller_than(parsed_input, MAX_SIZE)
 
 
 if __name__ == "__main__":
