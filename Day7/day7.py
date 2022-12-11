@@ -8,26 +8,41 @@ def path_to_string(path: list) -> str:
 
 class FileSystem:
     def __init__(self):
-        self.file_system = {}
+        self.file_system = {"/": {}}
         self.curr_directory = None
         self.curr_directory_path = ""
 
+    def __align_curr_directory_to_path(self, path: list) -> None:
+        self.curr_directory = self.file_system["/"]
+        for directory in path:
+            self.curr_directory = self.curr_directory[directory]
+
     def change_dir(self, directory_name: str) -> None:
-        path = self.curr_directory_path.split("/")
+        if self.curr_directory_path == "/":
+            path = []
+            # this is the fun exception to the rule I made. If the path is only "/" then splitting it returns ['', '']
+            # where for anything else it would be ['', 'dir1', 'dir2', ...]
+        else:
+            path = self.curr_directory_path.split("/")
+            # makes base directory "/" an empty string in the list
+            # so here's the bandaid fix:
+            path.pop(0)
 
         if directory_name == "..":
             path.pop()
             self.curr_directory_path = path_to_string(path)
-        elif directory_name not in path:
-            self.curr_directory_path += f"/{directory_name}"
+            self.__align_curr_directory_to_path(path)
+        elif directory_name == "/":
+            path = []
+            self.curr_directory_path = ""
+            self.__align_curr_directory_to_path(path)
         else:
-            directory_idx = path.index(directory_name)
-            path = path[: directory_idx + 1]
-            self.curr_directory_path = path_to_string(path)
+            self.curr_directory_path += f"/{directory_name}"
+            self.curr_directory = self.curr_directory[directory_name]
 
     def add_dir(self, dir_name: str) -> None:
-        if dir_name not in self.file_system[self.curr_directory].keys():
-            self.file_system[self.curr_directory][dir_name] = {}
+        if dir_name not in self.curr_directory.keys():
+            self.curr_directory[dir_name] = {}
 
     def add_file(self, file_name: str, file_size: int) -> None:
         self.curr_directory[file_name] = file_size
@@ -39,16 +54,16 @@ def main():
 
     file_system = FileSystem()
     for line in data:
-        line.split()
+        line = line.split()
         if line[0] == "$":
             command = line[1]
 
             match command:
                 case "cd":
-                    dir_name = line[1]
+                    dir_name = line[2]
                     file_system.change_dir(dir_name)
                 case "ls":
-                    continue
+                    pass
                 case _:
                     print(f"Unhandled case: {command}\nFrom {line = }")
                     break
