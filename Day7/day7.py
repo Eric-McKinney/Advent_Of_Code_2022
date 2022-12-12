@@ -1,3 +1,5 @@
+import pprint
+
 def path_to_string(path: list) -> str:
     path_string = ""
     for directory_name in path:
@@ -80,25 +82,23 @@ def parse_input() -> FileSystem:
 
 
 def get_directory_size(directory: dict, max_size: int, directories_small_enough: dict) -> int:
+    directory_name = list(directory.keys())[0] # is the name of current directory which isn't right atm
     sub_directories = []
     directory_size = 0
 
-    for value in list(directory.values()): # needs to be list or behaves weirdly
-        if type(value) is dict:
-            sub_directories.append(value)
-        elif type(value) is int:
-            directory_size += value
+    for contents in list(directory.values()): # needs to be list or everything is a dictionary
+        if type(contents) is dict:
+            sub_directories.append([directory_name, contents])
+        elif type(contents) is int:
+            directory_size += contents
         else:
-            print(f"Dunno how, but {value} is not int or dict")
+            print(f"Dunno how, but {contents} is not int or dict")
 
     for sub_directory in sub_directories:
-        directory_size += get_directory_size(sub_directory, max_size, directories_small_enough)
+        contents = sub_directory[1]
+        directory_size += get_directory_size(contents, max_size, directories_small_enough)
 
     if directory_size <= max_size:
-        directory_name = "Door stuck"
-        for key in list(directory.keys()):
-            directory_name = key
-
         directories_small_enough[directory_name] = directory_size
 
     return directory_size
@@ -108,6 +108,8 @@ def main():
     MAX_SIZE = 100000
 
     parsed_input = parse_input()
+    # pprint.pprint(parsed_input.file_system)
+
     directories_small_enough = {}
     get_directory_size(parsed_input.file_system, MAX_SIZE, directories_small_enough)
 
