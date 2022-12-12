@@ -79,18 +79,27 @@ def parse_input() -> FileSystem:
     return file_system
 
 
-def get_directory_size(directory: dict, max_size: int, directories_small_enough: list) -> int:
+def get_directory_size(directory: dict, max_size: int, directories_small_enough: dict) -> int:
     sub_directories = []
     directory_size = 0
 
-    for value in directory.values():
-        if value is dict:
+    for value in list(directory.values()): # needs to be list or behaves weirdly
+        if type(value) is dict:
             sub_directories.append(value)
-        else:
+        elif type(value) is int:
             directory_size += value
+        else:
+            print(f"Dunno how, but {value} is not int or dict")
 
     for sub_directory in sub_directories:
         directory_size += get_directory_size(sub_directory, max_size, directories_small_enough)
+
+    if directory_size <= max_size:
+        directory_name = "Door stuck"
+        for key in list(directory.keys()):
+            directory_name = key
+
+        directories_small_enough[directory_name] = directory_size
 
     return directory_size
 
@@ -99,8 +108,10 @@ def main():
     MAX_SIZE = 100000
 
     parsed_input = parse_input()
-    directories_small_enough = []
+    directories_small_enough = {}
     get_directory_size(parsed_input.file_system, MAX_SIZE, directories_small_enough)
+
+    print(directories_small_enough)
 
 
 if __name__ == "__main__":
