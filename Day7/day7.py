@@ -79,15 +79,28 @@ def parse_input() -> FileSystem:
     return file_system
 
 
-def find_directories_smaller_than(file_system: FileSystem, max_size: int) -> list:
-    pass
+def get_directory_size(directory: dict, max_size: int, directories_small_enough: list) -> int:
+    sub_directories = []
+    directory_size = 0
+
+    for value in directory.values():
+        if value is dict:
+            sub_directories.append(value)
+        else:
+            directory_size += value
+
+    for sub_directory in sub_directories:
+        directory_size += get_directory_size(sub_directory, max_size, directories_small_enough)
+
+    return directory_size
 
 
 def main():
     MAX_SIZE = 100000
 
     parsed_input = parse_input()
-    find_directories_smaller_than(parsed_input, MAX_SIZE)
+    directories_small_enough = []
+    get_directory_size(parsed_input.file_system, MAX_SIZE, directories_small_enough)
 
 
 if __name__ == "__main__":
