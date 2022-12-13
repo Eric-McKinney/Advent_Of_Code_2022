@@ -82,13 +82,13 @@ def parse_input() -> FileSystem:
 
 
 def get_directory_size(directory: dict, max_size: int, directories_small_enough: dict) -> int:
-    directory_name = list(directory.keys())[0] # is the name of current directory which isn't right atm
+    directory_name = list(directory.keys())[0] # is the name of current directory
     sub_directories = []
     directory_size = 0
 
-    for contents in list(directory.values()): # needs to be list or everything is a dictionary
+    for name, contents in list(directory.keys()), list(directory.values()): # needs to be list or everything is a dictionary
         if type(contents) is dict:
-            sub_directories.append([directory_name, contents])
+            sub_directories.append([name, contents])
         elif type(contents) is int:
             directory_size += contents
         else:
@@ -108,12 +108,12 @@ def main():
     MAX_SIZE = 100000
 
     parsed_input = parse_input()
-    # pprint.pprint(parsed_input.file_system)
+    pprint.pprint(parsed_input.file_system)
 
-    directories_small_enough = {}
-    get_directory_size(parsed_input.file_system, MAX_SIZE, directories_small_enough)
-
-    print(directories_small_enough)
+    # directories_small_enough = {}
+    # get_directory_size(parsed_input.file_system, MAX_SIZE, directories_small_enough)
+    #
+    # print(directories_small_enough)
 
 
 if __name__ == "__main__":
