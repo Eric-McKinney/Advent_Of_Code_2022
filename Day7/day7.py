@@ -75,7 +75,7 @@ def parse_input(data: list) -> dict:
     return file_system.file_system
 
 
-def get_directory_size(directory_name: str, directory: dict, max_size: int, directories_small_enough: dict) -> int:
+def get_directory_size(directory_name: str, directory: dict, max_size: int, directories_small_enough: list) -> int:
     sub_directories = []
     directory_size = 0
 
@@ -94,9 +94,13 @@ def get_directory_size(directory_name: str, directory: dict, max_size: int, dire
         directory_size += get_directory_size(name, contents, max_size, directories_small_enough)
 
     if directory_size <= max_size:
-        directories_small_enough[directory_name] = directory_size
+        directories_small_enough.append([directory_name, directory_size])
 
     return directory_size
+
+
+def find_smallest_to_delete():
+    pass
 
 
 def main():
@@ -106,14 +110,14 @@ def main():
     parsed_input = parse_input(data)
     # pprint.pprint(parsed_input)
 
-    directories_small_enough = {}
+    directories_small_enough = []
     get_directory_size("/", parsed_input, MAX_SIZE, directories_small_enough)
 
     # pprint.pprint(directories_small_enough)
 
     size_sum = 0
-    for size in directories_small_enough.values():
-        size_sum += size
+    for directory in directories_small_enough:
+        size_sum += directory[1]
 
     print(size_sum)
 
