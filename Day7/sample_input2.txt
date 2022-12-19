@@ -1,0 +1,16 @@
+$ cd /
+$ ls
+dir thisDir
+dir two
+345636 file.txt
+$ cd thisDir
+$ ls
+24898 thisFile
+dir last
+$ cd last
+$ ls
+44 last.pl
+$ cd /
+$ cd two
+$ ls
+2 too.to
