@@ -95,7 +95,7 @@ class MyTestCase(unittest.TestCase):
 
         parsed_input = day7.parse_input(test_input)
         directories_small_enough = {}
-        day7.get_directory_size('/', parsed_input, 100000, directories_small_enough)
+        day7.get_directory_size("/", parsed_input, 100_000, directories_small_enough)
 
         size_sum = 0
         for size in directories_small_enough.values():

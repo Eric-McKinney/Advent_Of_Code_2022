@@ -103,7 +103,7 @@ def get_directory_size(directory_name: str, directory: dict, max_size: int, dire
 
 
 def main():
-    MAX_SIZE = 100000
+    MAX_SIZE = 100_000
 
     with open("input.txt", "r") as f:
         data = f.readlines()
