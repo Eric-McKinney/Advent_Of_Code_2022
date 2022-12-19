@@ -1,5 +1,9 @@
 import pprint
 
+
+MAX_SIZE = 100_000
+
+
 def path_to_string(path: list) -> str:
     path_string = ""
     for directory_name in path:
@@ -54,7 +58,7 @@ def parse_input(data: list) -> dict:
                     dir_name = line[2]
                     file_system.change_dir(dir_name)
                 case "ls":
-                    pass # not supposed to do anything, just to show this case is covered
+                    pass # not supposed to do anything, just here to show this case is covered
                 case _:
                     print(f"Unhandled case: {command}\nFrom {line = }")
                     break
@@ -62,10 +66,12 @@ def parse_input(data: list) -> dict:
             if line[0] == "dir":
                 dir_name = line[1]
                 file_system.add_dir(dir_name)
-            else:
+            elif line[0].isdigit():
                 file_size = int(line[0])
                 file_name = line[1]
                 file_system.add_file(file_name, file_size)
+            else:
+                print("Not file or directory")
 
     return file_system.file_system
 
@@ -95,16 +101,16 @@ def get_directory_size(directory_name: str, directory: dict, max_size: int, dire
 
 
 def main():
-    MAX_SIZE = 100_000
-
     with open("input.txt", "r") as f:
         data = f.readlines()
 
     parsed_input = parse_input(data)
-    # pprint.pprint(parsed_input.file_system)
+    # pprint.pprint(parsed_input)
 
     directories_small_enough = {}
     get_directory_size("/", parsed_input, MAX_SIZE, directories_small_enough)
+
+    # pprint.pprint(directories_small_enough)
 
     size_sum = 0
     for size in directories_small_enough.values():
