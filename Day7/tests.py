@@ -33,7 +33,7 @@ class MyTestCase(unittest.TestCase):
                                 'file1.wav': 1234
                                 }
                            }
-        self.assertEqual(expected_parsed, parsed_input)
+        self.assertDictEqual(expected_parsed, parsed_input)
 
     def test_getting_size1(self):
         test_input = ["$ cd /\n",
@@ -59,7 +59,7 @@ class MyTestCase(unittest.TestCase):
                                 'directory3': 470}
 
         day7.get_directory_size('/', parsed_input, 500, directories_small_enough)
-        self.assertEqual(expected_directories, directories_small_enough)
+        self.assertDictEqual(expected_directories, directories_small_enough)
 
     def test_getting_size2(self):
         test_input = {'/':

@@ -10,44 +10,36 @@ def path_to_string(path: list) -> str:
 
 class FileSystem:
     def __init__(self):
-        self.file_system = {"/": {}}
-        self.curr_directory = None
-        self.curr_directory_path = ""
+        self.file_system = {}
+        self.path = []
 
-    def __align_curr_directory_to_path(self, path: list) -> None:
-        self.curr_directory = self.file_system["/"]
-        for directory in path:
-            self.curr_directory = self.curr_directory[directory]
+    def get_curr_directory(self) -> dict:
+        curr_directory = self.file_system
+        for directory in self.path:
+            curr_directory = curr_directory[directory]
+
+        return curr_directory
 
     def change_dir(self, directory_name: str) -> None:
-        if self.curr_directory_path == "/":
-            path = []
-            # this is the fun exception to the rule I made. If the path is only "/" then splitting it returns ['', '']
-            # where for anything else it would be ['', 'dir1', 'dir2', ...]
-        else:
-            path = self.curr_directory_path.split("/")
-            # makes base directory "/" an empty string in the list
-            # so here's the bandaid fix:
-            path.pop(0)
+        if directory_name == "/": # basically an initialization case
+            self.path.append("/")
+            self.file_system["/"] = {}
+            return
 
         if directory_name == "..":
-            path.pop()
-            self.curr_directory_path = path_to_string(path)
-            self.__align_curr_directory_to_path(path)
-        elif directory_name == "/":
-            path = []
-            self.curr_directory_path = ""
-            self.__align_curr_directory_to_path(path)
+            self.path.pop()
         else:
-            self.curr_directory_path += f"/{directory_name}"
-            self.curr_directory = self.curr_directory[directory_name]
+            self.path.append(directory_name)
 
     def add_dir(self, dir_name: str) -> None:
-        if dir_name not in self.curr_directory.keys():
-            self.curr_directory[dir_name] = {}
+        curr_directory = self.get_curr_directory()
+
+        if dir_name not in curr_directory.keys():
+            curr_directory[dir_name] = {}
 
     def add_file(self, file_name: str, file_size: int) -> None:
-        self.curr_directory[file_name] = file_size
+        curr_directory = self.get_curr_directory()
+        curr_directory[file_name] = file_size
 
 
 def parse_input(data: list) -> dict:
@@ -62,7 +54,7 @@ def parse_input(data: list) -> dict:
                     dir_name = line[2]
                     file_system.change_dir(dir_name)
                 case "ls":
-                    pass
+                    pass # not supposed to do anything, just to show this case is covered
                 case _:
                     print(f"Unhandled case: {command}\nFrom {line = }")
                     break
