@@ -9,7 +9,7 @@ $ ls
 dir last
 $ cd last
 $ ls
-44 last.pl
+75103 last.pl
 $ cd /
 $ cd two
 $ ls
