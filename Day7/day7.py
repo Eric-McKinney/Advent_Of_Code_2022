@@ -50,10 +50,7 @@ class FileSystem:
         self.curr_directory[file_name] = file_size
 
 
-def parse_input() -> FileSystem:
-    with open("input.txt", "r") as f:
-        data = f.readlines()
-
+def parse_input(data: list) -> dict:
     file_system = FileSystem()
     for line in data:
         line = line.split()
@@ -78,7 +75,7 @@ def parse_input() -> FileSystem:
                 file_name = line[1]
                 file_system.add_file(file_name, file_size)
 
-    return file_system
+    return file_system.file_system
 
 
 def get_directory_size(directory_name: str, directory: dict, max_size: int, directories_small_enough: dict) -> int:
@@ -108,11 +105,14 @@ def get_directory_size(directory_name: str, directory: dict, max_size: int, dire
 def main():
     MAX_SIZE = 100000
 
-    parsed_input = parse_input()
+    with open("input.txt", "r") as f:
+        data = f.readlines()
+
+    parsed_input = parse_input(data)
     # pprint.pprint(parsed_input.file_system)
 
     directories_small_enough = {}
-    get_directory_size("/", parsed_input.file_system, MAX_SIZE, directories_small_enough)
+    get_directory_size("/", parsed_input, MAX_SIZE, directories_small_enough)
 
     size_sum = 0
     for size in directories_small_enough.values():
