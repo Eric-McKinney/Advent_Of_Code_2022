@@ -14,7 +14,7 @@ def path_to_string(path: list) -> str:
 
 class FileSystem:
     def __init__(self):
-        self.file_system = {}
+        self.file_system = {"/": {}}
         self.path = []
 
     def get_curr_directory(self) -> dict:
@@ -25,9 +25,8 @@ class FileSystem:
         return curr_directory
 
     def change_dir(self, directory_name: str) -> None:
-        if directory_name == "/": # basically an initialization case
-            self.path.append("/")
-            self.file_system["/"] = {}
+        if directory_name == "/":
+            self.path = ["/"]
             return
 
         if directory_name == "..":
