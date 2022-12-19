@@ -103,6 +103,21 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(size_sum, 95437)
 
+    def test_cd_case(self):
+        with open("sample_input2.txt", "r") as f:
+            test_input = f.readlines()
+
+        parsed_input = day7.parse_input(test_input)
+        directories_small_enough = {}
+        day7.get_directory_size("/", parsed_input, day7.MAX_SIZE, directories_small_enough)
+
+        size_sum = 0
+        for size in directories_small_enough.values():
+            size_sum += size
+
+        expected_sum = 75103 + 2
+        self.assertEqual(size_sum, expected_sum)
+
 
 if __name__ == '__main__':
     unittest.main()
