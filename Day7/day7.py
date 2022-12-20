@@ -2,6 +2,8 @@ import pprint
 
 
 MAX_SIZE = 100_000
+TOTAL_SPACE = 70_000_000
+MIN_UNUSED_SPACE = 30_000_000
 
 
 def path_to_string(path: list) -> str:
@@ -93,14 +95,21 @@ def get_directory_size(directory_name: str, directory: dict, max_size: int, dire
         contents = sub_directory[1]
         directory_size += get_directory_size(name, contents, max_size, directories_small_enough)
 
-    if directory_size <= max_size:
-        directories_small_enough.append([directory_name, directory_size])
-
+    # if directory_size <= max_size:
+    #     directories_small_enough.append([directory_name, directory_size]) # originally was dict, but duplicate
+    #                                                                       # directory names are a thing
+    directories_small_enough.append([directory_name, directory_size])
     return directory_size
 
 
-def find_smallest_to_delete():
-    pass
+def find_smallest_to_delete(directories: list, min_size: int) -> int:
+    candidates = []
+    for name, size in directories:
+        if size >= min_size:
+            candidates.append(size)
+
+    candidates.sort()
+    return candidates[0]
 
 
 def main():
@@ -111,15 +120,22 @@ def main():
     # pprint.pprint(parsed_input)
 
     directories_small_enough = []
-    get_directory_size("/", parsed_input, MAX_SIZE, directories_small_enough)
+    get_directory_size("/", parsed_input["/"], MAX_SIZE, directories_small_enough)
 
     # pprint.pprint(directories_small_enough)
 
-    size_sum = 0
-    for directory in directories_small_enough:
-        size_sum += directory[1]
+    # size_sum = 0
+    # for directory in directories_small_enough:
+    #     size_sum += directory[1]
+    #
+    # print(f"{size_sum = }")
 
-    print(size_sum)
+    root_dir_size = 43313415
+    current_unused_space = TOTAL_SPACE - root_dir_size
+    min_size_to_delete = MIN_UNUSED_SPACE - current_unused_space
+    
+    size = find_smallest_to_delete(directories_small_enough, min_size_to_delete)
+    print(f"{size = }")
 
 
 if __name__ == "__main__":
