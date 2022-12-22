@@ -1,6 +1,5 @@
 
-def is_visible_from_left(grid: list, row: int, col: int) -> bool:
-    height = grid[row][col]
+def is_visible_from_left(grid: list, row: int, col: int, height: str) -> bool:
     for tree_height in grid[row][: col]:
         if tree_height >= height:
             return False
@@ -8,8 +7,7 @@ def is_visible_from_left(grid: list, row: int, col: int) -> bool:
     return True
 
 
-def is_visible_from_right(grid: list, row: int, col: int) -> bool:
-    height = grid[row][col]
+def is_visible_from_right(grid: list, row: int, col: int, height: str) -> bool:
     for tree_height in grid[row][col + 1: ]:
         if tree_height >= height:
             return False
@@ -17,8 +15,7 @@ def is_visible_from_right(grid: list, row: int, col: int) -> bool:
     return True
 
 
-def is_visible_from_top(grid: list, row: int, col: int) -> bool:
-    height = grid[row][col]
+def is_visible_from_top(grid: list, row: int, col: int, height: str) -> bool:
     for trees in grid[: row]:
         tree_height = trees[col]
 
@@ -28,8 +25,7 @@ def is_visible_from_top(grid: list, row: int, col: int) -> bool:
     return True
 
 
-def is_visible_from_bottom(grid: list, row: int, col: int) -> bool:
-    height = grid[row][col]
+def is_visible_from_bottom(grid: list, row: int, col: int, height: str) -> bool:
     for trees in grid[row + 1: ]:
         tree_height = trees[col]
 
@@ -50,12 +46,13 @@ def main():
     num_of_visible_trees = 0
 
     for row in range(len(data)):
-        for col in range(len(data[row])):
+        for col in range(len(data[row]) - 1):
+            height = data[row][col]
             if is_edge(data, row, col) or \
-               is_visible_from_left(data, row, col) or \
-               is_visible_from_right(data, row, col) or \
-               is_visible_from_top(data, row, col) or \
-               is_visible_from_bottom(data, row, col):
+               is_visible_from_left(data, row, col, height) or \
+               is_visible_from_right(data, row, col, height) or \
+               is_visible_from_top(data, row, col, height) or \
+               is_visible_from_bottom(data, row, col, height):
 
                 num_of_visible_trees += 1
 
