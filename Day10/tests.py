@@ -1,6 +1,7 @@
 import sys
 import unittest
 import day10
+import pprint
 
 
 class MyTestCase(unittest.TestCase):
@@ -23,11 +24,12 @@ class MyTestCase(unittest.TestCase):
                 case _:
                     print(f'Operation "{operation}" not recognized', file=sys.stderr)
 
+        pprint.pprint(circuit.cycle_log)
         signal_strength_sum = 0
         for cycle in range(20, 260, 40):
             signal_strength = day10.calculate_signal_strength(circuit, cycle)
             signal_strength_sum += signal_strength
-            print(f"{cycle = }\n{signal_strength = }")
+            # print(f"{cycle = }\t\t{signal_strength = }")
 
         self.assertEqual(13140, signal_strength_sum)
 

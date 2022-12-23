@@ -3,9 +3,9 @@ import sys
 
 class ClockCircuit:
     def __init__(self):
-        self.clock_cycle = 0
+        self.clock_cycle = 1
         self.x = 1
-        self.cycle_log = {0: 1}
+        self.cycle_log = {1: 1}
 
     def __update_clock(self):
         self.clock_cycle += 1
